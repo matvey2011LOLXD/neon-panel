@@ -1,5 +1,3 @@
-kcd ~/imgui-app
-cat > app/src/main/cpp/native.cpp <<'EOF'
 #include <jni.h>
 #include <GLES3/gl3.h>
 #include "imgui.h"
@@ -92,4 +90,3 @@ Java_com_neon_panel_MainActivity_nativeTouch(
     if (action == 1 || action == 3)
         io.AddMouseButtonEvent(0, false);
 }
-EOF
