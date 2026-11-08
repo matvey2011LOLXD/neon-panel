@@ -1,7 +1,14 @@
+cd ~/imgui-app
+cat > app/src/main/java/com/neon/panel/MainActivity.java <<'EOF'
 package com.neon.panel;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
@@ -15,8 +22,38 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FrameLayout layout = new FrameLayout(this);
+
         panelView = new PanelView();
-        setContentView(panelView);
+        layout.addView(panelView);
+
+        Button launchButton = new Button(this);
+        launchButton.setText("ЗАПУСТИТЬ ИГРУ");
+        launchButton.setOnClickListener(v -> launchGame());
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            Gravity.TOP | Gravity.CENTER_HORIZONTAL
+        );
+        params.topMargin = 20;
+
+        layout.addView(launchButton, params);
+        setContentView(layout);
+    }
+
+    private void launchGame() {
+        try {
+            Intent intent = getPackageManager()
+                .getLaunchIntentForPackage("com.standrise.game");
+
+            if (intent != null) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -78,3 +115,4 @@ public class MainActivity extends Activity {
         System.loadLibrary("neonpanel");
     }
 }
+EOF
