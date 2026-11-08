@@ -1,4 +1,4 @@
-kpackage com.neon.panel;
+package com.neon.panel;
 
 import android.app.Activity;
 import android.os.Bundle;
